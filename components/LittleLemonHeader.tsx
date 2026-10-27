@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 
-export function LittleLemonHeader() {
+function LittleLemonHeader() {
   return (
     <View style={styles.header}>
       <Text style={styles.title}>Little Lemon</Text>
@@ -27,3 +27,5 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
 });
+
+export default LittleLemonHeader;

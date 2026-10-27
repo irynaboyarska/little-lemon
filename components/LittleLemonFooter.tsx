@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 
-export function LittleLemonFooter() {
+function LittleLemonFooter() {
   const year = new Date().getFullYear();
 
   return (
@@ -22,3 +22,5 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
 });
+
+export default LittleLemonFooter;
