@@ -15,12 +15,14 @@ type WelcomeScreenProps = {
   colors: Palette;
   email: string;
   onExit: () => void;
+  onOpenMenu?: () => void;
 };
 
 export default function WelcomeScreen({
   colors,
   email,
   onExit,
+  onOpenMenu,
 }: WelcomeScreenProps) {
   const [name, setName] = useState("");
   const trimmedName = name.trim();
@@ -47,7 +49,7 @@ export default function WelcomeScreen({
           Ласкаво просимо до Little Lemon
         </Text>
         <Text style={[styles.notice, { color: colors.muted }]}>
-          Дані перевірено локально. Відкрито навчальний екран для {email}.
+          Навчальний екран привітання для {email}.
         </Text>
 
         <Text style={[styles.label, { color: colors.text }]}>Ваше ім’я</Text>
@@ -121,6 +123,22 @@ export default function WelcomeScreen({
             Повернутися до форми
           </Text>
         </Pressable>
+        {onOpenMenu !== undefined && (
+          <Pressable
+            accessibilityRole="button"
+            onPress={onOpenMenu}
+            style={({ pressed }) => [
+              styles.button,
+              styles.secondaryButton,
+              { borderColor: colors.border },
+              pressed && styles.buttonPressed,
+            ]}
+          >
+            <Text style={[styles.buttonText, { color: colors.text }]}>
+              Відкрити меню
+            </Text>
+          </Pressable>
+        )}
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -189,4 +207,5 @@ const styles = StyleSheet.create({
   },
   buttonPressed: { opacity: 0.75 },
   buttonText: { fontSize: 18, fontWeight: "600", textAlign: "center" },
+  secondaryButton: { borderWidth: 1 },
 });

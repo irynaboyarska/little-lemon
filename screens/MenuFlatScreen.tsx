@@ -3,12 +3,14 @@ import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
 import type { MenuItem } from "../types/menu";
 import { menuItems } from "../data/menu";
 import { MenuItemRow } from "../components/MenuItemRow";
+import { useAppColors } from "../theme/useAppColors";
 
-function Separator() {
-  return <View style={styles.separator} />;
-}
+type MenuFlatScreenProps = {
+  onSelectItem?: (itemId: string) => void;
+};
 
-export default function MenuFlatScreen() {
+export default function MenuFlatScreen({ onSelectItem }: MenuFlatScreenProps) {
+  const colors = useAppColors();
   const [query, setQuery] = useState("");
   const normalizedQuery = query.trim().toLocaleLowerCase("uk-UA");
   const visibleItems = menuItems.filter((item) =>
@@ -19,11 +21,18 @@ export default function MenuFlatScreen() {
     <View style={styles.screen}>
       <View style={styles.searchBox}>
         <TextInput
-          style={styles.input}
+          style={[
+            styles.input,
+            {
+              color: colors.text,
+              backgroundColor: colors.surface,
+              borderColor: colors.border,
+            },
+          ]}
           value={query}
           onChangeText={setQuery}
           placeholder="Пошук страви"
-          placeholderTextColor="#777777"
+          placeholderTextColor={colors.muted}
           accessibilityLabel="Пошук страви"
           autoCorrect={false}
         />
@@ -33,11 +42,21 @@ export default function MenuFlatScreen() {
         contentContainerStyle={styles.content}
         data={visibleItems}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <MenuItemRow item={item} />}
-        ListHeaderComponent={<Text style={styles.heading}>Наше меню</Text>}
-        ItemSeparatorComponent={Separator}
+        renderItem={({ item }) => (
+          <MenuItemRow item={item} onPress={onSelectItem} />
+        )}
+        ListHeaderComponent={
+          <Text style={[styles.heading, { color: colors.text }]}>
+            Наше меню
+          </Text>
+        }
+        ItemSeparatorComponent={() => (
+          <View
+            style={[styles.separator, { backgroundColor: colors.border }]}
+          />
+        )}
         ListEmptyComponent={
-          <Text style={styles.empty}>
+          <Text style={[styles.empty, { color: colors.muted }]}>
             {normalizedQuery ? "Нічого не знайдено." : "Меню поки порожнє."}
           </Text>
         }
@@ -55,9 +74,8 @@ const styles = StyleSheet.create({
     paddingTop: 16,
   },
   input: {
-    backgroundColor: "#FFFFFF",
-    color: "#333333",
     fontSize: 16,
+    borderWidth: 1,
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 10,
@@ -69,18 +87,15 @@ const styles = StyleSheet.create({
     paddingBottom: 32,
   },
   heading: {
-    color: "#EE9972",
     fontSize: 26,
     fontWeight: "bold",
     marginBottom: 8,
   },
   separator: {
     height: 1,
-    backgroundColor: "#EDEFEE",
-    opacity: 0.3,
+    opacity: 0.4,
   },
   empty: {
-    color: "#EDEFEE",
     fontSize: 16,
     paddingVertical: 16,
   },

@@ -3,6 +3,7 @@ import type { SectionListData } from "react-native";
 import type { CategoryInfo, MenuItem } from "../types/menu";
 import { categories, menuItems } from "../data/menu";
 import { MenuItemRow } from "../components/MenuItemRow";
+import { useAppColors } from "../theme/useAppColors";
 
 const sections: SectionListData<MenuItem, CategoryInfo>[] = categories.map(
   (category) => ({
@@ -16,6 +17,7 @@ function Separator() {
 }
 
 export default function MenuGroupedScreen() {
+  const colors = useAppColors();
   return (
     <SectionList<MenuItem, CategoryInfo>
       style={styles.list}
@@ -24,7 +26,14 @@ export default function MenuGroupedScreen() {
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => <MenuItemRow item={item} />}
       renderSectionHeader={({ section }) => (
-        <Text style={styles.sectionTitle}>{section.title}</Text>
+        <Text
+          style={[
+            styles.sectionTitle,
+            { backgroundColor: colors.background, color: colors.text },
+          ]}
+        >
+          {section.title}
+        </Text>
       )}
       ItemSeparatorComponent={Separator}
       stickySectionHeadersEnabled={true}

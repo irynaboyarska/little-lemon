@@ -1,45 +1,33 @@
-import { useState } from "react";
-import { StyleSheet, useColorScheme, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import LittleLemonHeader from "./components/LittleLemonHeader";
-import LittleLemonFooter from "./components/LittleLemonFooter";
-import LoginScreen from "./screens/LoginScreen";
-import WelcomeScreen from "./screens/WelcomeScreen";
-import { darkColors, lightColors } from "./theme/palette";
+import { StyleSheet, useColorScheme } from "react-native";
+import {
+  DarkTheme,
+  DefaultTheme,
+  NavigationContainer,
+} from "@react-navigation/native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import StackFlow from "./navigation/StackFlow";
+import TabsFlow from "./navigation/TabsFlow";
+import DrawerFlow from "./navigation/DrawerFlow";
+
+const ActiveNavigator = StackFlow;
 
 export default function App() {
-  const [demoEmail, setDemoEmail] = useState<string | null>(null);
-  const colorScheme = useColorScheme();
-  const isDark = colorScheme === "dark";
-  const colors = isDark ? darkColors : lightColors;
+  const isDark = useColorScheme() === "dark";
 
   return (
-    <SafeAreaProvider>
-      <StatusBar style={isDark ? "light" : "dark"} />
-      <SafeAreaView
-        style={[styles.screen, { backgroundColor: colors.background }]}
-        edges={["top", "bottom"]}
-      >
-        <LittleLemonHeader colors={colors} />
-        <View style={styles.content}>
-          {demoEmail === null ? (
-            <LoginScreen colors={colors} onContinue={setDemoEmail} />
-          ) : (
-            <WelcomeScreen
-              colors={colors}
-              email={demoEmail}
-              onExit={() => setDemoEmail(null)}
-            />
-          )}
-        </View>
-        <LittleLemonFooter colors={colors} />
-      </SafeAreaView>
-    </SafeAreaProvider>
+    <GestureHandlerRootView style={styles.root}>
+      <SafeAreaProvider>
+        <StatusBar style={isDark ? "light" : "dark"} />
+        <NavigationContainer theme={isDark ? DarkTheme : DefaultTheme}>
+          <ActiveNavigator />
+        </NavigationContainer>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: { flex: 1 },
-  content: { flex: 1 },
+  root: { flex: 1 },
 });
