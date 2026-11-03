@@ -1,9 +1,11 @@
+import { Button } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import ScreenFrame from "../components/ScreenFrame";
 import DetailsScreen from "../screens/DetailsScreen";
 import LoginScreen from "../screens/LoginScreen";
 import MenuFlatScreen from "../screens/MenuFlatScreen";
+import RemoteMenuScreen from "../screens/RemoteMenuScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import { useAppColors } from "../theme/useAppColors";
 import type { StackParamList } from "./types";
@@ -61,6 +63,15 @@ function DetailsRoute({ route }: DetailsProps) {
   );
 }
 
+function RemoteMenuRoute() {
+  const colors = useAppColors();
+  return (
+    <ScreenFrame colors={colors}>
+      <RemoteMenuScreen />
+    </ScreenFrame>
+  );
+}
+
 export default function StackFlow() {
   return (
     <Stack.Navigator initialRouteName="Login">
@@ -72,7 +83,15 @@ export default function StackFlow() {
       <Stack.Screen
         name="Welcome"
         component={WelcomeRoute}
-        options={{ title: "Привітання" }}
+        options={({ navigation }) => ({
+          title: "Привітання",
+          headerRight: () => (
+            <Button
+              title="Меню з мережі"
+              onPress={() => navigation.navigate("RemoteMenu")}
+            />
+          ),
+        })}
       />
       <Stack.Screen
         name="Menu"
@@ -83,6 +102,11 @@ export default function StackFlow() {
         name="Details"
         component={DetailsRoute}
         options={{ title: "Деталі страви" }}
+      />
+      <Stack.Screen
+        name="RemoteMenu"
+        component={RemoteMenuRoute}
+        options={{ title: "Меню Little Lemon" }}
       />
     </Stack.Navigator>
   );
