@@ -5,6 +5,7 @@ import ScreenFrame from "../components/ScreenFrame";
 import DetailsScreen from "../screens/DetailsScreen";
 import LoginScreen from "../screens/LoginScreen";
 import MenuFlatScreen from "../screens/MenuFlatScreen";
+import PreferencesScreen from "../screens/PreferencesScreen";
 import RemoteMenuScreen from "../screens/RemoteMenuScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import { useAppColors } from "../theme/useAppColors";
@@ -38,6 +39,7 @@ function WelcomeRoute({ navigation, route }: WelcomeProps) {
         email={route.params.email}
         onExit={() => navigation.goBack()}
         onOpenMenu={() => navigation.navigate("Menu")}
+        onOpenPreferences={() => navigation.navigate("Preferences")}
       />
     </ScreenFrame>
   );
@@ -68,6 +70,15 @@ function RemoteMenuRoute() {
   return (
     <ScreenFrame colors={colors}>
       <RemoteMenuScreen />
+    </ScreenFrame>
+  );
+}
+
+function PreferencesRoute() {
+  const colors = useAppColors();
+  return (
+    <ScreenFrame colors={colors}>
+      <PreferencesScreen />
     </ScreenFrame>
   );
 }
@@ -107,6 +118,11 @@ export default function StackFlow() {
         name="RemoteMenu"
         component={RemoteMenuRoute}
         options={{ title: "Меню Little Lemon" }}
+      />
+      <Stack.Screen
+        name="Preferences"
+        component={PreferencesRoute}
+        options={{ title: "Налаштування" }}
       />
     </Stack.Navigator>
   );

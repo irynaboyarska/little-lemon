@@ -57,7 +57,6 @@ const response = await fetch(url, { signal });
 if (!response.ok) {
 throw new Error(`Не вдалося отримати меню: HTTP ${response.status}.`);
 }
-// Цей endpoint за контрактом має повертати JSON з menu.
 let payload: unknown;
 try {
 payload = await response.json();
