@@ -10,6 +10,7 @@ import RemoteMenuScreen from "../screens/RemoteMenuScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import { useAppColors } from "../theme/useAppColors";
 import type { StackParamList } from "./types";
+import CustomersScreen from "../screens/CustomersScreen";
 
 const Stack = createNativeStackNavigator<StackParamList>();
 
@@ -40,6 +41,7 @@ function WelcomeRoute({ navigation, route }: WelcomeProps) {
         onExit={() => navigation.goBack()}
         onOpenMenu={() => navigation.navigate("Menu")}
         onOpenPreferences={() => navigation.navigate("Preferences")}
+        onOpenCustomers={() => navigation.navigate("Customers")}
       />
     </ScreenFrame>
   );
@@ -79,6 +81,15 @@ function PreferencesRoute() {
   return (
     <ScreenFrame colors={colors}>
       <PreferencesScreen />
+    </ScreenFrame>
+  );
+}
+
+function CustomersRoute() {
+  const colors = useAppColors();
+  return (
+    <ScreenFrame colors={colors}>
+      <CustomersScreen />
     </ScreenFrame>
   );
 }
@@ -123,6 +134,11 @@ export default function StackFlow() {
         name="Preferences"
         component={PreferencesRoute}
         options={{ title: "Налаштування" }}
+      />
+      <Stack.Screen
+        name="Customers"
+        component={CustomersRoute}
+        options={{ title: "Клієнти" }}
       />
     </Stack.Navigator>
   );

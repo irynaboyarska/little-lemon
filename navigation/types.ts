@@ -5,6 +5,7 @@ export type StackParamList = {
   Details: { itemId: string };
   RemoteMenu: undefined;
   Preferences: undefined;
+  Customers: undefined;
 };
 
 export type TabParamList = {

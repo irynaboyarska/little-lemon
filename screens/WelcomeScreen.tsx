@@ -17,6 +17,7 @@ type WelcomeScreenProps = {
   onExit: () => void;
   onOpenMenu?: () => void;
   onOpenPreferences?: () => void;
+  onOpenCustomers?: () => void;
 };
 
 export default function WelcomeScreen({
@@ -25,6 +26,7 @@ export default function WelcomeScreen({
   onExit,
   onOpenMenu,
   onOpenPreferences,
+  onOpenCustomers,
 }: WelcomeScreenProps) {
   const [name, setName] = useState("");
   const trimmedName = name.trim();
@@ -154,6 +156,22 @@ export default function WelcomeScreen({
           >
             <Text style={[styles.buttonText, { color: colors.text }]}>
               Налаштування
+            </Text>
+          </Pressable>
+        )}
+        {onOpenCustomers !== undefined && (
+          <Pressable
+            accessibilityRole="button"
+            onPress={onOpenCustomers}
+            style={({ pressed }) => [
+              styles.button,
+              styles.secondaryButton,
+              { borderColor: colors.border },
+              pressed && styles.buttonPressed,
+            ]}
+          >
+            <Text style={[styles.buttonText, { color: colors.text }]}>
+              Клієнти
             </Text>
           </Pressable>
         )}
